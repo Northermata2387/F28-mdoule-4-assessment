@@ -1,5 +1,5 @@
 // Goal Options
-// const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs')
 const chats = []
 
 

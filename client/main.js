@@ -5,7 +5,7 @@ const fortuneBtn = document.getElementById("fortuneButton")
 
 // Compliment Handle
 const getCompliment = () => {
-    axios.get("http://localhost:4000/api/compliment/")
+    axios.get("http://localhost:4000/api/compliment")
         .then(res => {
             const data = res.data;
             alert(data);
@@ -16,7 +16,7 @@ complimentBtn.addEventListener('click', getCompliment)
 
 // Fortune Handle
 const getFortune = () => {
-    axios.get("http://localhost:4000/api/fortune/")
+    axios.get("http://localhost:4000/api/fortune")
         .then(res => {
             const data = res.data;
             alert(data);
@@ -30,16 +30,18 @@ fortuneBtn.addEventListener('click', getFortune)
 const goalContainer = document.querySelector('#goal-container')
 const goalForm = document.querySelector('#goal-form')
 
-const postGoal = body => {
-    axios.post("http://localhost:4000/api/goals/")
-        .then(res => {
-            console.log(res.data)
-            displaygoals(res.data)
-          }).catch(err => {
-            console.log(err)
-            alert('Uh oh. not working....')
-    });
-};
+const baseURL = `http://localhost:4000/api/goals`
+
+const postGoal = body => 
+    axios
+    .post(baseURL, body)
+    .then(res => {
+        console.log(res.data)
+        displayGoals(res.data)
+}).catch(err => {
+  console.log(err)
+  alert('Uh oh. not working....')
+})
 
 function submitHandler(e) {
     e.preventDefault()

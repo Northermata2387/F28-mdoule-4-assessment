@@ -25,6 +25,15 @@ app.get("/api/compliment", getCompliment);
 // fortune API
 app.get("/api/fortune", getFortune);
 
+// Post API
+const {
+    getGoals,
+    createGoal
+} = require('./controller')
+
+app.post(`/api/goals`, createGoal)
+
+
 // Open door for server to receive request
 
 app.listen(4000, () => console.log("Server running on 4000"));
