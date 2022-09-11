@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="./index.css" />
-    <title>Back End Assessment</title>
+
+    <title>Goal List</title>
   </head>
   <body class="container">
-    <div class="Btn">
-      <button id="complimentButton">Get a compliment</button>
-    </div>
-    <button id="fortuneButton">Get a fortune</button>
-    <div class="Btn">
+    <header>
+      <h2 class="site-title">Your Easy Goal List</h2>
+    </header>
+    <main>
+      <section class="request-area">
+        <section class="request-type">
+          <button id="complimentButton">Get a compliment</button>
+        </section>
+        <section class="request-type">
+          <form id="goal-form">
+            <input 
+            type="text" 
+            id="goal-input" 
+            placeholder="Write Your Goal" />
+            <input 
+            type='password'
+            id="goal-pin-input"
+            placeholder="Enter Your Pin"/>
+            <button>Add Goal</button>
+          </form>
+        </section>
+        <section class="request-type">
+          <button id="fortuneButton">Get a fortune</button>
+        </section>
+      </section>
+      <section class="response-area" id="goal-container"></section>
+    </main>
       <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </div>
     <script src="main.js"></script>

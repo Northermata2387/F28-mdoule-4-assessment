@@ -14,10 +14,16 @@ app.use(cors()); //Allows server to activate cors
 app.use(express.json()); //Allows server to accept JSON object
 
 
-
 const { getCompliment } = require('./controller')
 
+// Fortune Controller
+const { getFortune } = require('./controller')
+
+// Compliment API
 app.get("/api/compliment", getCompliment);
+
+// fortune API
+app.get("/api/fortune", getFortune);
 
 // Open door for server to receive request
 
