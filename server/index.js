@@ -14,10 +14,7 @@ app.use(cors()); //Allows server to activate cors
 app.use(express.json()); //Allows server to accept JSON object
 
 
-const { getCompliment } = require('./controller')
-
-// Fortune Controller
-const { getFortune } = require('./controller')
+const { getCompliment, getFortune, getGoals, addGoal, editGoal } = require('./controller')
 
 // Compliment API
 app.get("/api/compliment", getCompliment);
@@ -25,13 +22,11 @@ app.get("/api/compliment", getCompliment);
 // fortune API
 app.get("/api/fortune", getFortune);
 
-// Post API
-const {
-    getGoals,
-    createGoal
-} = require('./controller')
-
-app.post(`/api/goals`, createGoal)
+// Goal endpoint
+app.get('/api/goals', getGoals)
+app.post('/api/addGoals', addGoal)
+app.delete('/api/deleteGoal/:id', deleteGoal)
+app.put('/api/editGoal/:id', editGoal)
 
 
 // Open door for server to receive request

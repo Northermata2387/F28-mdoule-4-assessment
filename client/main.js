@@ -1,7 +1,33 @@
+//base URL
+
+const baseURL = "http://localhost:4000"
+
+// Step 1: Select HTML element
+
 // Buttons
 const complimentBtn = document.getElementById("complimentButton")
 // Fortune button
 const fortuneBtn = document.getElementById("fortuneButton")
+// Step 1: (goal)select HTML element
+const getGoalsBtn = document.getElementById('getGoals')
+
+const goalList = document.getElementById('displayGoals')
+
+const goalForm = document.getElementById('goalForm')
+const goalInput = document.getElementById('goalInput')
+
+const deleteForm = document.getElementById('deleteForm')
+const deleteInput = document.getElementById('deleteInput')
+
+const editForm = document.getElementById('editForm')
+const editIndex = document.getElementById('editIndex')
+const editInput = document.getElementById('editInput')
+
+
+
+
+
+
 
 // Compliment Handle
 const getCompliment = () => {
@@ -25,56 +51,103 @@ const getFortune = () => {
 
 fortuneBtn.addEventListener('click', getFortune)
 
-// Goal Handle
+// 2. (goal) write our function
+const getGoals = () => {
+    axios.get(`${baseURL}/api/goals`)
+        .then((res) => {
+            console.log(res.data)
+            const goals = res.data
+            goalList.innerHTML = ''
 
-const goalContainer = document.querySelector('#goal-container')
-const goalForm = document.querySelector('#goal-form')
+            for(let i = 0; i < goals.length; i++) {
+                let newGoal = document.createElement('li')
+                newGoal.textContent = goals[i]
+                goalList.appendChild(newGoal)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+}
 
-const baseURL = `http://localhost:4000/api/goals`
-
-const postGoal = body => 
-    axios
-    .post(baseURL, body)
-    .then(res => {
-        console.log(res.data)
-        displayGoals(res.data)
-}).catch(err => {
-  console.log(err)
-  alert('Uh oh. not working....')
-})
-
-function submitHandler(e) {
-    e.preventDefault()
-
-    let pin = document.querySelector('#goal-pin-input')
-    let goal = document.querySelector('#goal-input')
+const addGoal = (event) => {
+    event.preventDefault()
 
     let bodyObj = {
-        pin: pin.value,
-        goal: goal.value
+        item: addGoal.value
     }
 
-    postGoal(bodyObj)
+    axios.post(`${baseURL}/api/addGoals`, bodyObj)
+    .then((res) => {
+        console.log(res.data)
+        const goals = res.data
+        goalList.innerHTML = ''
 
-    pin.value = ''
-    goal.value = ''
+        for(let i = 0; i < goals.length; i++) {
+            let newGoal = document.createElement('li')
+            newGoal.textContent = goals[i]
+            goalList.appendChild(newGoal)
+        }
+    })
+    .catch((err) => {
+        console.log(err)
+    })
 }
 
-function createGoal(data) {
-    const goalCard = document.createElement('div')
-    goalCard.classList.add('goal-card')
+const deleteGoal = (event) => {
+    event.preventDefault()
 
-    goalCard.innerHTML = `<p class="goal">${data}</p>`
+    axios.delete(`${baseURL}/api/deleteGoal/${deleteForm.value}`)
+    .then((res) => {
+        console.log(res.data)
+        const goals = res.data
+        goalList.innerHTML = ''
 
+        for(let i = 0; i < goals.length; i++) {
+            let newGoal = document.createElement('li')
+            newGoal.textContent = goals[i]
+            goalList.appendChild(newGoal)
+        }
 
-    goalContainer.appendChild(goalCard)
+        deleteInput.value = ''
+    })
+    .catch((err) => {
+        console.log(err)
+    })
 }
 
-function displayGoals(data) {
-  goalContainer.innerHTML = ``
-  for (let i = 0; i < data.goals.length; i++) {
-      createGoal(data.goals[i])
-  }
+const editItem = (e) => {
+    e.preventDefault()
+
+    let bodyObj = { 
+        item: editInput.value
+    }
+
+    axios.put(`${baseURL}/api/editGoal/${editIndex.value} bodyObj`)
+    .then((res) => {
+        console.log(res.data)
+        const goals = res.data
+        goalList.innerHTML = ''
+
+        for(let i = 0; i < goals.length; i++) {
+            let newGoal = document.createElement('li')
+            newGoal.textContent = goals[i]
+            goalList.appendChild(newGoal)
+        }
+
+        editIndex.value = ''
+        editInput.value = ''
+    })
+    .catch((err) => {
+        console.log(err)
+    })
 }
 
-goalForm.addEventListener('submit', submitHandler)
+
+
+// Step 3: Combine with event listener
+getGoalsBtn.addEventListener('click', getGoals);
+goalForm.addEventListener('submit', addGoal)
+addGoal.addEventListener('submit', addNewGoal)
+deleteForm.addEventListener('submit', deleteGoal)
+editForm.addEventListener('submit', editItem)

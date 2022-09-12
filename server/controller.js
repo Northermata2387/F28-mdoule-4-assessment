@@ -1,6 +1,5 @@
-// Goal Options
-const bcrypt = require('bcryptjs')
-const chats = []
+//Goal array
+const goals = ["goal1", 'goal2', 'goal3']
 
 
 module.exports = {
@@ -29,32 +28,35 @@ module.exports = {
         res.status(200).send(randomfortune);
     },
 
-    //POST Goal
-    createGoal: (req, res) => {
-        console.log(req.body)
-          const { pin, goal } = req.body
-          for (let i = 0; i < chats.length; i++) {
-            const existing = bcrypt.compareSync(pin, chats[i].pinHash)
-            if (existing) {
-              chats[i].goals.push(Goal)
-              let goalsToReturn = {...chats[i]}
-              delete goalsToReturn.pinHash
-              res.status(200).send(goalsToReturn)
-              return
-            }
-          }
-  
-          const salt = bcrypt.genSaltSync(5)
-          const pinHash = bcrypt.hashSync(pin, salt)
-  
-          let msgObj = {
-            pinHash,
-            goals: [goal]
-          }
-          chats.push(msgObj)
-          let goalsToReturn = {...msgObj}
-          delete goalsToReturn.pinHash
-          res.status(200).send(goalsToReturn)
-      }
+    //Goal array
+    getGoals: (req, res) => {
+        res.status(200).send(goals)
+    },
+
+    addGoal: (req, res) => {
+        let {item} = req.body
+        goals.push(item)
+
+        res.status(200).send(goals)
+    },
+
+    deleteGoal: (req, res) => {
+        let index = req.params.id
+
+        goals.splice(index, 1)
+
+        res.status(200).send(goals)
+    },
+
+    editGoal: (req, res) => {
+        let index = req.params.id
+        let {item} = req.body
+
+        goals.splice(index, 1, item)
+
+        res.status(200).send(goals)
+        
+    },
+
 
 }
